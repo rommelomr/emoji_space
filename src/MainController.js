@@ -6,7 +6,7 @@ export let MainController = {
 */
 	display_random_emojis:true,
 
-	level:1,
+	level:9,
 
 	current_level_emojis_name:[],
 
@@ -157,23 +157,28 @@ export let MainController = {
 
 	},
 	setCurrentLevelEmojis:function(){
-		let emojis_ids = [];
+		let emojis_names = [];
 
 		var emoji_can_be_used = null;
 
 		for(let key in this.emojis){
-
+			//console.log(this.emojis[key].image_name+'. Level: '+this.emojis[key].first_aparition_level +' <= '+ this.level);
+			
+			
 			emoji_can_be_used = this.emojis[key].first_aparition_level <= this.level;
 
 			if(emoji_can_be_used){
 
-				emojis_ids.push(this.emojis[key].image_name);
+				emojis_names.push(this.emojis[key].image_name);
 
 			}
 
 		}
 
-		this.current_level_emojis_name = emojis_ids;
+		this.current_level_emojis_name = emojis_names;
+		//console.log('current_level_emojis_name');
+		//console.log(this.current_level_emojis_name);
+		
 
 	},
 
@@ -236,7 +241,7 @@ export let MainController = {
 	runEmojisRain:function(phaser){
 		
 		if(this.display_random_emojis){
-
+			
 			this.display_random_emojis = false;
 
 			let emoji_to_display_index = Phaser.Math.Between(0,this.current_level_emojis_name.length-1);
@@ -288,7 +293,7 @@ export let MainController = {
 					this.displayed_emojis[i].disableBody(true,true);
 
 					aux.splice(this.displayed_emojis.indexOf(this.displayed_emojis[i]),1);
-					console.log(this.displayed_emojis);
+					
 				}
 
 			}
@@ -309,10 +314,7 @@ export let MainController = {
 	catchEmoji:function(rocket, emoji){
 		emoji.disableBody(true, true);
 
-
-		this.displayed_emojis.splice(this.displayed_emojis.indexOf(emoji),1);
-		console.log('choque');
-		console.log(this.displayed_emojis);
+		this.displayed_emojis.splice(this.displayed_emojis.indexOf(emoji),1);	
 
 	},
 	test:function(){
@@ -322,7 +324,7 @@ export let MainController = {
 
 		//let a = phaser.physics.add.staticImage(Config.game_width / 2,Config.game_height / 2,this.platform.image_name);
 		
-		//alert();
+		//
 
 	},
 	setMaxEmojisToGenerate:function(max){

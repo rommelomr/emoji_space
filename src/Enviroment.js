@@ -1,10 +1,15 @@
 export let Enviroment = {
 
 	display_random_emojis:true,
-	level:1,
+
+	level:9,
+
 	current_level_emojis_name:[],
+
 	rocket:null,
+
 	cursors:null,
+	
 	times:{//in seconds
 
 		next_emoji:{
@@ -17,7 +22,7 @@ export let Enviroment = {
 	max_poops_to_lose:3,
 	emojis_velocity:null,
 	emojis_displayed:[],
-	
+
 	blockDisplayRandomEmoji(){
 
 		this.display_random_emojis = false;
