@@ -1,6 +1,9 @@
-import {f_config} from './f_config.js';
-export let MainController = {
+import {Config} from './Config.js';
+import {Enviroment} from './Enviroment.js';
 
+export let MainController = {
+/*
+*/
 	display_random_emojis:true,
 
 	level:1,
@@ -19,14 +22,14 @@ export let MainController = {
 		},
 
 	},
-	
-	max_emojis_to_generate: null,
+
+	max_emojis_to_create: null,
 
 	emojis_velocity:null,
 
 
 
-	emojis_displayed:[],
+	displayed_emojis:[],
 
 
 	max_poops_to_lose:3,
@@ -210,7 +213,7 @@ export let MainController = {
 	},
 	setRocket:function(phaser){
 
-		this.rocket = phaser.physics.add.image(this.setRocketInitialXPosition(f_config.game_width), this.setRocketInitialYPosition(f_config.game_height), 'rocket');
+		this.rocket = phaser.physics.add.image(this.setRocketInitialXPosition(Config.game_width), this.setRocketInitialYPosition(Config.game_height), 'rocket');
 		this.rocket.setCollideWorldBounds(true);
 	},
 	setCursors:function(phaser){
@@ -220,30 +223,31 @@ export let MainController = {
 	},
 	loadImages:function(phaser){
 		
-		phaser.load.image(this.avatar.image_name, f_config.emojis_path+this.avatar.image_name+this.avatar.extension);
+		phaser.load.image(this.avatar.image_name, Config.emojis_path+this.avatar.image_name+this.avatar.extension);
 		for(let emoji in this.emojis){
 
-			phaser.load.image(emoji, f_config.emojis_path+this.emojis[emoji].image_name+this.emojis[emoji].extension);
+			phaser.load.image(emoji, Config.emojis_path+this.emojis[emoji].image_name+this.emojis[emoji].extension);
 		}
-		phaser.load.image(this.platform.image_name, f_config.helpers_path+this.platform.image_name+this.platform.extension);
+		phaser.load.image(this.platform.image_name, Config.helpers_path+this.platform.image_name+this.platform.extension);
 /*
 */
 	},
 
 	runEmojisRain:function(phaser){
+		
 		if(this.display_random_emojis){
 
 			this.display_random_emojis = false;
 
 			let emoji_to_display_index = Phaser.Math.Between(0,this.current_level_emojis_name.length-1);
 
-			let num_emojis_to_show = Phaser.Math.Between(1,this.max_emojis_to_generate);
+			let num_emojis_to_create = Phaser.Math.Between(1,this.max_emojis_to_create);
 
 			let emojis_y_position = Phaser.Math.Between(0, 100);
 
-			let i = this.emojis_displayed.length;
+			let i = this.displayed_emojis.length;
 
-			for(let j = 0; j < num_emojis_to_show; j++){
+			for(let j = 0; j < num_emojis_to_create; j++){
 
 
 				let emoji_name = this.current_level_emojis_name[emoji_to_display_index];
@@ -254,7 +258,7 @@ export let MainController = {
 
 				let half_emoji_height = Math.ceil(emoji.height / 2);
 
-				emoji.x = Phaser.Math.Between(half_emoji_width, f_config.game_width - half_emoji_width );
+				emoji.x = Phaser.Math.Between(half_emoji_width, Config.game_width - half_emoji_width );
 
 				emoji.y = 0 - half_emoji_height - emojis_y_position;
 
@@ -262,9 +266,9 @@ export let MainController = {
 				
 				phaser.physics.add.overlap(this.rocket, emoji, this.catchEmoji, null, this);
 				
-
-				this.emojis_displayed.push(emoji);
+				this.displayed_emojis.push(emoji);
 			}
+
 			this.setNextEmojiTime(Phaser.Math.Between(0.6,1));
 				
 		}else{
@@ -275,30 +279,22 @@ export let MainController = {
 				this.display_random_emojis = true;
 			}
 
-			let aux = this.emojis_displayed;
+			let aux = this.displayed_emojis;
 
 			for(let i = 0; i < aux.length; i++){
 
-				if(aux[i].y >= f_config.game_height + (aux[i].height/2)){
+				if(aux[i].y >= Config.game_height + (aux[i].height/2)){
 					
-					this.emojis_displayed[i].disableBody(true,true);
-					aux.splice(i,1);
+					this.displayed_emojis[i].disableBody(true,true);
+
+					aux.splice(this.displayed_emojis.indexOf(this.displayed_emojis[i]),1);
+					console.log(this.displayed_emojis);
 				}
 
 			}
-			this.emojis_displayed = aux;
+			this.displayed_emojis = aux;
 
 		}
-		
-
-		/*
-		for(let i = 0; i < num_emojis; i++){
-
-			this.emojis.smile.object.enableBody(true,Phaser.Math.Between(100,200),Phaser.Math.Between(100,200),true,true);
-
-		
-		}
-		*/
 
 	},
 	setNextEmojiTime:function(time){
@@ -313,20 +309,25 @@ export let MainController = {
 	catchEmoji:function(rocket, emoji){
 		emoji.disableBody(true, true);
 
+
+		this.displayed_emojis.splice(this.displayed_emojis.indexOf(emoji),1);
+		console.log('choque');
+		console.log(this.displayed_emojis);
+
 	},
 	test:function(){
 		alert();
 	},
 	setPlatform:function(phaser){
 
-		//let a = phaser.physics.add.staticImage(f_config.game_width / 2,f_config.game_height / 2,this.platform.image_name);
+		//let a = phaser.physics.add.staticImage(Config.game_width / 2,Config.game_height / 2,this.platform.image_name);
 		
 		//alert();
 
 	},
 	setMaxEmojisToGenerate:function(max){
 
-		this.max_emojis_to_generate = max;
+		this.max_emojis_to_create = max;
 	},
 
 }

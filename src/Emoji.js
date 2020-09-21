@@ -1,1 +1,3 @@
-Emoji.js
+export let Emoji = {
+	
+}

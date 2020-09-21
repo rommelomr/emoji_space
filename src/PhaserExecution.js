@@ -1,6 +1,6 @@
 import {MainController} from './MainController.js';
 
-export let exec = {
+export let PhaserExecution = {
 
 
 	preload:function(){

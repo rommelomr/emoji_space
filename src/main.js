@@ -1,14 +1,14 @@
-import {f_config} from './f_config.js';
-import {Framework} from './Framework.js';
+import {Config} from './Config.js';
+import {Game} from './Game.js';
 
 document.addEventListener('DOMContentLoaded',function(){
 
-	let framework = new Framework({
-		game_width : f_config.game_width,
-		game_height : f_config.game_height,
+	let game = new Game({
+		game_width : Config.game_width,
+		game_height : Config.game_height,
 	});
 
-	framework.init();
+	game.init();
     
 
 })

@@ -1,4 +1,4 @@
-export let f_config = {
+export let Config = {
 
 	game_width : 500,
 	game_height : 500,
