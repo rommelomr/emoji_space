@@ -1,7 +1,7 @@
-import {Config} from './Config.js';
-import {Enviroment} from './Enviroment.js';
+import {Config} from '../Config.js';
+import {Enviroment} from '../Enviroment.js';
 
-export let MainController = {
+export let FlyingController = {
 /*
 */
 	display_random_emojis:true,

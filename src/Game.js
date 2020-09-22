@@ -1,4 +1,4 @@
-import {PhaserExecution} from './PhaserExecution.js';
+import {Scene} from './Scene.js';
 
 export class Game {
 
@@ -72,11 +72,7 @@ export class Game {
 	                debug: false
 	            }
 	        },
-	        scene: {
-	            preload:PhaserExecution.preload,
-	            create:PhaserExecution.create,
-	            update:PhaserExecution.update
-	        }
+	        scene:Scene.getScenes()
 		};
 
 		let game = new Phaser.Game(config);
