@@ -4,45 +4,50 @@ import {Emoji} from '../classes/Emoji.js';
 
 export let PlayingController = {
 
-	runAvatarControls:function(enviroment){
-		
-		if (enviroment.getCursors().left.isDown){
+	runPlayerControls:function(enviroment,phaser){
+		let players_num = enviroment.getPlayersNum();
+		for(let i = 0; i < players_num; i++){
 
-            enviroment.getAvatar().obj.setVelocityX(0 - enviroment.getAvatarXVelocity());
+			if (enviroment.getCursors(i).left.isDown){
 
-        }else if (enviroment.getCursors().right.isDown){
+	            enviroment.getPlayer(i).obj.setVelocityX(0 - enviroment.getPlayerXVelocity(i));
 
-            enviroment.getAvatar().obj.setVelocityX(enviroment.getAvatarXVelocity());
+	        }else if (enviroment.getCursors(i).right.isDown){
 
-        }else{
+	            enviroment.getPlayer(i).obj.setVelocityX(enviroment.getPlayerXVelocity(i));
 
-        	if(enviroment.getAvatar().obj.body.velocity.x > 0){
+	        }else{
 
-            	enviroment.getAvatar().obj.setVelocityX(enviroment.getAvatar().obj.body.velocity.x - Enviroment.getAvatarBrakes());
+	        	if(enviroment.getPlayer(i).obj.body.velocity.x > 0){
 
-            }else if(enviroment.getAvatar().obj.body.velocity.x < 0){
+	            	enviroment.getPlayer(i).obj.setVelocityX(enviroment.getPlayer(i).obj.body.velocity.x - enviroment.getPlayerBrakes(i));
 
-            	enviroment.getAvatar().obj.setVelocityX(enviroment.getAvatar().obj.body.velocity.x + Enviroment.getAvatarBrakes());
+	            }else if(enviroment.getPlayer(i).obj.body.velocity.x < 0){
 
-            }
+	            	enviroment.getPlayer(i).obj.setVelocityX(enviroment.getPlayer(i).obj.body.velocity.x + enviroment.getPlayerBrakes(i));
 
-        }
+	            }
+
+	        }
+		}
+
 
 	},
 
-	loadAvatarImage:function(){
+	loadPlayerImage:function(){
 
-		if(Enviroment.getAvatar().path == null){
-
-		}
 
 	},
 	loadImages:function(enviroment,phaser){
 
-		Enviroment.configureAvatar(phaser);
+		let players_num = enviroment.getPlayersNum();
 
-		phaser.load.image(enviroment.getAvatar().image_name, enviroment.getAvatar().path+enviroment.getAvatar().image_name+enviroment.getAvatar().ext);
+		for(let i = 0; i < players_num; i++){
+			enviroment.configurePlayer(i,phaser);
 
+			phaser.load.image(enviroment.getPlayer(i).image_name, enviroment.getPlayer(i).path+enviroment.getPlayer(i).image_name+enviroment.getPlayer(i).ext);
+		}
+		
 		let emojis = Emoji.getEmojis();
 
 		for(let emoji in emojis){
@@ -59,8 +64,6 @@ export let PlayingController = {
 			enviroment.blockDisplayRandomEmojis();
 
 			let num_emojis_to_create = Phaser.Math.Between(1,enviroment.getMaxEmojisToCreate());
-
-				
 
 			Emoji.createEmojis(num_emojis_to_create,enviroment,phaser,(rocket,emoji)=>{
 				
@@ -112,7 +115,7 @@ export let PlayingController = {
 
 		enviroment.setDisplayedEmojis(aux);
 
-		console.log(Emoji.emojis[emoji.name]);
+		//console.log(Emoji.emojis[emoji.name]);
 
 	},
 

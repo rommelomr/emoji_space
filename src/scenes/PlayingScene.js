@@ -12,6 +12,8 @@ export class PlayingScene extends Phaser.Scene {
 
 	preload(){
 
+		Enviroment.configurePlayersNum();
+
 		PlayingController.loadImages(Enviroment,this);
 
 	}
@@ -20,11 +22,10 @@ export class PlayingScene extends Phaser.Scene {
 
 		Enviroment.configureLevel();
 
-		Enviroment.configureAvatarObject(this);
+		Enviroment.configurePlayerObject(Enviroment,this);
 
-		Enviroment.configureAvatarXVelocity();
+		Enviroment.configurePlayers(Enviroment);
 
-		Enviroment.configureAvatarBrakes();
 
 		Enviroment.configureEmojisVelocity();
 
@@ -33,7 +34,6 @@ export class PlayingScene extends Phaser.Scene {
 		Enviroment.configureCurrentLevelEmojis();
 		
 		Enviroment.configureNextEmojiTime();
-
 		Enviroment.configureBoolDisplayRandomEmojis();
 
 		Enviroment.configureMaxEmojisToCreate();
@@ -45,9 +45,10 @@ export class PlayingScene extends Phaser.Scene {
 
 	update(){
 		
-		PlayingController.runAvatarControls(Enviroment);
+		PlayingController.runPlayerControls(Enviroment,this);
 
 		PlayingController.runEmojisRain(Enviroment,this);			
+
 
 	}
 }

@@ -10,11 +10,20 @@ export let Config = {
 
 	avatars_path:'assets/avatars/',
 
-	default_avatar:{
-		image_name:'rocket',
-		ext:'.png',
-		x_velocity:400,
-		brakes:40,
-	},
+	default_avatar:[
+		{
+			image_name:'rocket',
+			ext:'.png',
+			x_velocity:400,
+			brakes:40,
+		},
+		{
+			image_name:'rocket',
+			ext:'.png',
+			x_velocity:400,
+			brakes:40,
+		},
+		
+	],
 
 }

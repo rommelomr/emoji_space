@@ -119,7 +119,13 @@ export let Emoji = {
 
 			Emoji.setEmojiRandomPosition(emoji);
 
-			phaser.physics.add.overlap(enviroment.avatar.obj, emoji.epo, catchEmoji, null, this);
+			let players_num = enviroment.getPlayersNum();
+
+			for(let j = 0; j < players_num;j++){
+
+				phaser.physics.add.overlap(enviroment.getPlayer(j).obj, emoji.epo, catchEmoji, null, this);
+					
+			}
 
 			enviroment.addDisplayedEmoji(emoji.epo);
 			
