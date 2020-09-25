@@ -1,5 +1,5 @@
 import {Config} from '../Config.js';
-export let MainMenuController = {
+export let LoseController = {
 
 	loadResources:function(phaser){
 

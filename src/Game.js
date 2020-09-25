@@ -1,4 +1,4 @@
-import {Scene} from './Scene.js';
+import {Scene} from './classes/Scene.js';
 
 export class Game {
 
