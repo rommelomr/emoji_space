@@ -8,8 +8,8 @@ export let Scene = {
 	
 	getScenes:function(){
 		return [
-			this.Playing,
 			this.MainMenu,
+			this.Playing,
 		]
 	}
 }

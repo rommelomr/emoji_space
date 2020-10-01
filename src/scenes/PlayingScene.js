@@ -51,7 +51,8 @@ export class PlayingScene extends Phaser.Scene {
 		if(Enviroment.gameOver()){
 
 			alert('Game over');
-			return;
+
+			this.scene.start('MainMenuScene');
 
 		}else{
 
