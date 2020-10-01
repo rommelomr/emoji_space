@@ -66,7 +66,7 @@ export let PlayingController = {
 
 			Emoji.createEmojis(enviroment,phaser,(rocket,emoji)=>{
 				
-				this.catchEmoji(rocket,emoji,enviroment);
+				this.catchEmoji(rocket,emoji,enviroment,phaser);
 				
 			});
 
@@ -100,7 +100,7 @@ export let PlayingController = {
 
 	},
 
-	catchEmoji:function(rocket, emoji,enviroment){
+	catchEmoji:function(rocket, emoji,enviroment,phaser){
 
 		let aux = enviroment.getDisplayedEmojis();
 
@@ -108,9 +108,7 @@ export let PlayingController = {
 
 		enviroment.disableEmoji(i,aux);
 
-		Enviroment.catchEmoji(rocket,emoji);
-
-		
+		Enviroment.catchEmoji(rocket,emoji,phaser);
 
 	},
 

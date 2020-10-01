@@ -48,13 +48,20 @@ export class PlayingScene extends Phaser.Scene {
 	}
 
 	update(){
+		if(Enviroment.gameOver()){
 
-		PlayingController.runPlayerControls(Enviroment,this);
+			alert('Game over');
+			return;
 
-		PlayingController.runEmojisRain(Enviroment,this);			
+		}else{
+
+			PlayingController.runPlayerControls(Enviroment,this);
+
+			PlayingController.runEmojisRain(Enviroment,this);			
+			
+		}
 		
-
-
+		
 
 	}
 }

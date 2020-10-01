@@ -120,6 +120,9 @@ export let Emoji = {
 
 			return 'is_poop';
 
+		}else if(emoji.id == 3){
+			
+			return 'is_toilet';
 		}
 	},
 	getEmojis:function(){

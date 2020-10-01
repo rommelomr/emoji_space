@@ -31,6 +31,10 @@ export let Enviroment = {
 		displayed_emojis:[],
 
 		poops:{
+			objs:{
+				player_one:[],
+				player_two:[],
+			},
 			max_to_lose:null,
 			collected:null,
 		},
@@ -55,6 +59,12 @@ export let Enviroment = {
 
 	},
 	
+	getPlayerCollectedPoops:function(i){
+
+		return this.players.array[i].poops;
+
+	},
+	
 	configureCollectedPoops:function(){
 
 		this.setGameCollectedPoops(0);
@@ -66,7 +76,7 @@ export let Enviroment = {
 
 
 	},
-	catchEmoji:function(catched_rocket,catched_emoji){
+	catchEmoji:function(catched_rocket,catched_emoji,phaser){
 
 		let rocket = this.getPlayer(catched_rocket.id);
 
@@ -91,13 +101,24 @@ export let Enviroment = {
 			}
 			case 'is_poop':{
 
-				let game_collected_poops = this.getCollectedPoops()+1;
+				let game_collected_poops = this.getGameCollectedPoops()+1;
 
 				this.setGameCollectedPoops(game_collected_poops);
 
 				let player_collected_poops = this.getPlayer(catched_rocket.id).poops+1;
 
 				this.setPlayerCollectedPoops(catched_rocket.id,player_collected_poops);
+
+				this.displayCornerPoop(catched_rocket,phaser);
+
+				break;
+
+			}
+			case 'is_toilet':{
+
+				this.cleanPoop(catched_rocket,rocket);
+
+				break;
 
 			}
 
@@ -320,7 +341,7 @@ export let Enviroment = {
 		this.emojis_settings.poops.max_to_lose = num;
 
 	},
-	getCollectedPoops:function(){
+	getGameCollectedPoops:function(){
 		return this.emojis_settings.poops.collected;
 	},
 	setGameCollectedPoops:function(num){
@@ -677,7 +698,9 @@ export let Enviroment = {
 		let user_setted_players_num = this.getPlayersNum() != null;
 
 		if(!user_setted_players_num){
+
 			this.setPlayersNum(1);
+
 		}
 
 	},
@@ -860,9 +883,10 @@ export let Enviroment = {
 
 	},
 	getMaxEmojisToCreate:function(){
-		return this.emojis_settings.max_emojis_to_create;
-	},
 
+		return this.emojis_settings.max_emojis_to_create;
+
+	},
 	setPlayerInitialXPosition:function(game_width){
 
 		return game_width / 2;
@@ -873,4 +897,67 @@ export let Enviroment = {
 		return game_height * 0.9;
 
 	},
+	gameOver:function(){
+
+		let num = this.getPlayersNum();
+
+		if(num == 1){
+
+			return this.getPlayerCollectedPoops(0) >= this.getMaxPoopsToLose();
+
+		}else if(num == 2){
+
+			let max_poops_to_lose = this.getMaxPoopsToLose();
+
+			let a_player_lost = this.getPlayerCollectedPoops(0) >= max_poops_to_lose || this.getPlayerCollectedPoops(1) >= max_poops_to_lose;
+
+			return a_player_lost;
+
+		}
+
+	},	
+
+	addCollectedPoopObject:function(obj,i){
+		if(i==0){
+
+			this.emojis_settings.poops.objs.player_one.push(obj);
+
+		}else if(i==1){
+
+			this.emojis_settings.poops.objs.player_two.push(obj);
+		}
+	},
+	displayCornerPoop:function(rocket,phaser){
+
+		let poops_num = this.getPlayerCollectedPoops(rocket.id);
+
+		let obj = phaser.add.image(120 + (poops_num * 30) , 10 + (rocket.id*25), 'poop').setScale(0.5);
+
+		this.addCollectedPoopObject(obj,rocket.id);
+		
+	},	
+	cleanPoop:function(catched_rocket,rocket){
+		
+		if(rocket.poops != 0){
+
+			let new_poops_number = rocket.poops-1;
+
+			if(catched_rocket.id == 0){
+
+				this.emojis_settings.poops.objs.player_one[new_poops_number].destroy();
+				this.emojis_settings.poops.objs.player_one.splice(new_poops_number,1);
+
+			}else if(catched_rocket.id == 1){
+
+				this.emojis_settings.poops.objs.player_two[new_poops_number].destroy();
+				this.emojis_settings.poops.objs.player_two.splice(new_poops_number,1);
+				
+			}
+
+				this.setPlayerCollectedPoops(catched_rocket.id,new_poops_number);
+
+		}
+		
+	},	
+
 }
