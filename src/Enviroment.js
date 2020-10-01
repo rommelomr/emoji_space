@@ -699,7 +699,7 @@ export let Enviroment = {
 
 		if(!user_setted_players_num){
 
-			this.setPlayersNum(1);
+			this.setPlayersNum(2);
 
 		}
 
