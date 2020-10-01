@@ -16,38 +16,44 @@ export class PlayingScene extends Phaser.Scene {
 
 		PlayingController.loadImages(Enviroment,this);
 
+		Enviroment.loadFonts(this);
+
 	}
 
 	create(){
 
 		Enviroment.configureLevel();
 
-		Enviroment.configurePlayerObject(Enviroment,this);
+		Enviroment.configurePlayerObject(this);
 
-		Enviroment.configurePlayers(Enviroment);
-
+		Enviroment.configurePlayers();
 
 		Enviroment.configureEmojisVelocity();
 
 		Enviroment.setCursors(this);
 
 		Enviroment.configureCurrentLevelEmojis();
-		
+
 		Enviroment.configureNextEmojiTime();
+
 		Enviroment.configureBoolDisplayRandomEmojis();
 
 		Enviroment.configureMaxEmojisToCreate();
 
 		Enviroment.configureMaxPoopsToLose();
 
+		Enviroment.configureScore(this);
 
+		Enviroment.configureCollectedPoops();
 	}
 
 	update(){
-		
+
 		PlayingController.runPlayerControls(Enviroment,this);
 
 		PlayingController.runEmojisRain(Enviroment,this);			
+		
+
 
 
 	}

@@ -3,9 +3,11 @@ import {Emoji} from './classes/Emoji.js';
 
 export let Enviroment = {
 
+	level:{
 
-	level:null,
-	level_passed:null,
+		num:null,
+		passed:null,
+	},
 
 	times:{//in seconds
 
@@ -43,6 +45,141 @@ export let Enviroment = {
 		num_players:null,
 		array:[],
 	},
+	texts:{
+		player_score:[]
+	},
+
+	setPlayerCollectedPoops:function(i,num){
+
+		this.players.array[i].poops = num;
+
+	},
+	
+	configureCollectedPoops:function(){
+
+		this.setGameCollectedPoops(0);
+		let num = this.getPlayersNum();
+		for(let i = 0; i < num; i++){
+
+			this.setPlayerCollectedPoops(i,0);
+		}
+
+
+	},
+	catchEmoji:function(catched_rocket,catched_emoji){
+
+		let rocket = this.getPlayer(catched_rocket.id);
+
+		let emoji_info = Emoji.getSingleEmoji(catched_emoji.name);
+
+		let type_emoji = Emoji.getTypeEmoji(emoji_info);
+
+
+		switch(type_emoji){
+			case 'add_points':{
+
+				let actual_player_score = this.getPlayer(catched_rocket.id).score;
+
+				let new_score = actual_player_score + emoji_info.points;
+
+				this.updateTextScore(catched_rocket.id,new_score);
+
+				this.setScore(catched_rocket.id,new_score);
+
+				break;
+
+			}
+			case 'is_poop':{
+
+				let game_collected_poops = this.getCollectedPoops()+1;
+
+				this.setGameCollectedPoops(game_collected_poops);
+
+				let player_collected_poops = this.getPlayer(catched_rocket.id).poops+1;
+
+				this.setPlayerCollectedPoops(catched_rocket.id,player_collected_poops);
+
+			}
+
+		}
+
+
+	},
+
+	setScore:function(i,score){
+
+		this.players.array[i].score = score;
+
+	},
+	updateTextScore:function(i,new_score){
+		
+		let score = this.getTextScore(i);
+		let num = this.getPlayersNum();
+		let message;
+		if(num == 1){
+
+			message = 'player : '+new_score;
+
+		}else{
+
+			message = 'player '+(i+1)+': '+new_score;
+
+		}
+		score.text = message;
+
+	},
+	getTextScore:function(i){
+
+		return this.texts.player_score[i];
+
+	},
+	setTextScore:function(i,message,phaser){
+
+		
+		this.texts.player_score[i] = phaser.add.bitmapText(3,3+(i*25),'vermin',message,23);
+
+
+	},
+	
+	getScore:function(i){
+
+		return this.players.array[i].score;
+
+	},
+	
+	configureScore:function(phaser){
+
+		let num = this.getPlayersNum();
+		let single_player = num == 1;
+
+		for(let i = 0; i<num; i++){
+
+			let score = 0;
+
+			this.setScore(i,score);
+
+			let message;
+
+			if(single_player){
+
+				message = 'player: '+score;				
+
+			}else{
+
+				message = 'player '+(i+1)+': '+score;
+
+			}
+
+			//this.texts.player_score[i] = phaser.add.bitmapText(3,3+(i*25),'vermin',message,23);
+			this.setTextScore(i,message,phaser);
+
+		}
+
+	},
+	loadFonts:function(phaser){
+
+		phaser.load.bitmapFont('vermin','assets/fonts/vermin/vermin.png','assets/fonts/vermin/vermin.xml');
+	},
 	setLifes:function(num){
 
 		this.players.lifes = num;
@@ -59,18 +196,18 @@ export let Enviroment = {
 
 		if(passed == null){
 
-			this.level_passed = true;
+			this.level.passed = true;
 
 		}else{
 
-			this.level_passed = !passed;
+			this.level.passed = !passed;
 
 		}
 
 	},
 	getLevelPassed:function(){
 
-		return this.level_passed;
+		return this.level.passed;
 
 	},
 	setEmojisBaseVelocity:function(v){
@@ -131,10 +268,11 @@ export let Enviroment = {
 
 	},
 
-	disableEmoji:function(i){
+	disableEmoji:function(i,aux){
 
 		this.emojis_settings.displayed_emojis[i].disableBody(true,true);
-
+		aux.splice(this.getDisplayedEmojis().indexOf(this.getDisplayedEmojis(i)),1);
+		this.setDisplayedEmojis(aux);
 	},
 
 	setDisplayedEmojis:function(arr){
@@ -174,15 +312,7 @@ export let Enviroment = {
 			this.setMaxPoopsToLose(num);
 
 		}
-		if(coll == null){
 
-			this.setPoopsCollected(0);
-			
-		}else{
-
-			this.setPoopsCollected(num);
-
-		}
 		
 	},
 	setMaxPoopsToLose:function(num){
@@ -190,9 +320,12 @@ export let Enviroment = {
 		this.emojis_settings.poops.max_to_lose = num;
 
 	},
-	setPoopsCollected:function(num){
-
+	getCollectedPoops:function(){
+		return this.emojis_settings.poops.collected;
+	},
+	setGameCollectedPoops:function(num){
 		this.emojis_settings.poops.collected = num;
+
 
 	},
 
@@ -202,7 +335,7 @@ export let Enviroment = {
 
 	},
 	setLevel:function(num){
-		this.level = num;
+		this.level.num = num;
 	},
 
 	configureLevel:function(num){
@@ -219,7 +352,7 @@ export let Enviroment = {
 
 			if(game_is_starting){
 
-				this.setLevel(1);
+				this.setLevel(2);
 
 			}else{
 
@@ -238,7 +371,7 @@ export let Enviroment = {
 
 	getLevel:function(){
 
-		return this.level;
+		return this.level.num;
 
 	},
 
@@ -324,12 +457,12 @@ export let Enviroment = {
 			ext:null,
 		}
 	},
-	configurePlayers:function(enviroment){
-		let players_num = enviroment.getPlayersNum();		
+	configurePlayers:function(){
+		let players_num = this.getPlayersNum();		
 		for(let i = 0; i < players_num; i++){
 
-			enviroment.configurePlayerXVelocity(i);
-			enviroment.configurePlayerBrakes(i);
+			this.configurePlayerXVelocity(i);
+			this.configurePlayerBrakes(i);
 		}
 
 	},
@@ -345,6 +478,7 @@ export let Enviroment = {
 		let phaser_obj;
 		let x_velocity;
 		let brakes;
+		let score;
 		
 		if(avatar.cursors == null){
 
@@ -504,13 +638,32 @@ export let Enviroment = {
 
 		}
 
+		if(avatar.score == null){
 
-		this.setPlayer(cursors,lifes,path,image_name,ext,obj,x_velocity,brakes);
+			if(obj == null || obj.score == null){
+
+				score = Config.default_avatar[i].score;
+
+			}else{
+
+				score = obj.score;
+
+			}
+
+		}else{
+
+			score = avatar.score;
+
+		}
+
+
+		this.setPlayer(cursors,lifes,path,image_name,ext,obj,x_velocity,brakes,score);
 
 	},
 	setPlayerObject:function(i,obj){
 		
 		this.players.array[i].obj = obj;
+		this.players.array[i].obj.id = i;
 
 	},
 	getPlayerObject:function(i){
@@ -528,20 +681,26 @@ export let Enviroment = {
 		}
 
 	},
-	configurePlayerObject:function(enviroment,phaser){
+	configurePlayerObject:function(phaser){
+
+		let players_num;
 
 		if(this.getPlayersNum() == null){
 
 			this.setPlayersNum(1);
+
 			players_num = 1;
+
 		}
 
-		let players_num = this.getPlayersNum();
+		players_num = this.getPlayersNum();
+
 		for(let i = 0; i < players_num; i++){
 		
 			let player = this.getPlayer(i);
 
-			this.setPlayerObject(i,phaser.physics.add.image(this.setPlayerInitialXPosition(Config.game_width), this.setPlayerInitialYPosition(Config.game_height), player.image_name));
+			this.setPlayerObject(i,phaser.physics.add.image(this.setPlayerInitialXPosition(Config.game_width), this.setPlayerInitialYPosition(Config.game_height), player.image_name).setSize(50,80,true));
+
 			this.getPlayerObject(i).setCollideWorldBounds(true);
 				
 		}
@@ -569,11 +728,13 @@ export let Enviroment = {
 			ext:this.players.array[i].ext,
 			obj:this.players.array[i].obj,
 			x_velocity:this.players.array[i].x_velocity,
-			brakes:this.players.array[i].brakes
+			brakes:this.players.array[i].brakes,
+			score:this.players.array[i].score,
+			poops:this.players.array[i].poops
 		}
 
 	},
-	setPlayer:function(cursors,lifes,path,image_name,ext,obj,x_velocity,brakes){
+	setPlayer:function(cursors,lifes,path,image_name,ext,obj,x_velocity,brakes,score,poops){
 
 		let aux = {
 			cursors:cursors,
@@ -584,6 +745,8 @@ export let Enviroment = {
 			obj:obj,
 			x_velocity:x_velocity,
 			brakes:brakes,
+			score:score,
+			poops:poops,
 		};
 
 		this.players.array.push(aux);

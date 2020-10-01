@@ -13,13 +13,13 @@ export let Config = {
 	default_avatar:[
 		{
 			image_name:'rocket',
-			ext:'.png',
+			ext:'.svg',
 			x_velocity:400,
 			brakes:40,
 		},
 		{
 			image_name:'rocket',
-			ext:'.png',
+			ext:'.svg',
 			x_velocity:400,
 			brakes:40,
 		},

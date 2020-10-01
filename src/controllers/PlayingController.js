@@ -59,13 +59,12 @@ export let PlayingController = {
 	},
 
 	runEmojisRain:function(enviroment,phaser){
+
 		if(enviroment.doDisplayRandomEmojis()){
 
 			enviroment.blockDisplayRandomEmojis();
 
-			let num_emojis_to_create = Phaser.Math.Between(1,enviroment.getMaxEmojisToCreate());
-
-			Emoji.createEmojis(num_emojis_to_create,enviroment,phaser,(rocket,emoji)=>{
+			Emoji.createEmojis(enviroment,phaser,(rocket,emoji)=>{
 				
 				this.catchEmoji(rocket,emoji,enviroment);
 				
@@ -91,15 +90,11 @@ export let PlayingController = {
 
 				if(aux[i].y >= Config.game_height + (aux[i].height/2)){
 				
-					enviroment.disableEmoji(i);
-
-					aux.splice(enviroment.getDisplayedEmojis().indexOf(enviroment.getDisplayedEmojis(i)),1);
-
+					enviroment.disableEmoji(i,aux);					
+					
 				}
 
 			}
-
-			enviroment.setDisplayedEmojis(aux);
 
 		}
 
@@ -107,15 +102,15 @@ export let PlayingController = {
 
 	catchEmoji:function(rocket, emoji,enviroment){
 
-		emoji.disableBody(true, true);
-
 		let aux = enviroment.getDisplayedEmojis();
 
-		aux.splice(aux.indexOf(emoji),1);
+		let i = aux.indexOf(emoji);
 
-		enviroment.setDisplayedEmojis(aux);
+		enviroment.disableEmoji(i,aux);
 
-		//console.log(Emoji.emojis[emoji.name]);
+		Enviroment.catchEmoji(rocket,emoji);
+
+		
 
 	},
 

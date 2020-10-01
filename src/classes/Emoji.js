@@ -8,7 +8,8 @@ export let Emoji = {
 			id:1,
 			first_aparition_level:1,
 			probability:60,
-			good:true,
+			is_good:true,
+			add_points:true,
 			points:1,
 			object:null,
 			image_name:'smile',
@@ -20,7 +21,7 @@ export let Emoji = {
 			id:2,
 			first_aparition_level:2,
 			probability:60,
-			good:false,
+			is_good:false,
 			object:null,
 			image_name:'poop',
 			ext:'.png',
@@ -31,7 +32,7 @@ export let Emoji = {
 			id:3,
 			first_aparition_level:2,
 			probability:60,
-			good:true,
+			is_good:true,
 			object:null,
 			image_name:'toilet',
 			ext:'.png',
@@ -42,7 +43,8 @@ export let Emoji = {
 			id:4,
 			first_aparition_level:1,
 			probability:60,
-			good:true,
+			add_points:true,
+			is_good:true,
 			points:3,
 			object:null,
 			image_name:'angel',
@@ -54,7 +56,7 @@ export let Emoji = {
 			id:5,
 			first_aparition_level:3,
 			probability:60,
-			good:true,
+			is_good:true,
 			points:5,
 			object:null,
 			image_name:'laugh',
@@ -66,7 +68,7 @@ export let Emoji = {
 			id:6,
 			first_aparition_level:4,
 			probability:60,
-			good:true,
+			is_good:true,
 			object:null,
 			image_name:'heart',
 			ext:'.png',
@@ -77,7 +79,7 @@ export let Emoji = {
 			id:7,
 			first_aparition_level:3,
 			probability:60,
-			good:false,
+			is_good:false,
 			object:null,
 			image_name:'phantom',
 			ext:'.png',
@@ -88,7 +90,7 @@ export let Emoji = {
 			id:8,
 			first_aparition_level:3,
 			probability:60,
-			good:false,
+			is_good:false,
 			object:null,
 			image_name:'devil',
 			ext:'.png',
@@ -99,7 +101,7 @@ export let Emoji = {
 			id:9,
 			first_aparition_level:4,
 			probability:60,
-			good:false,
+			is_good:false,
 			object:null,
 			image_name:'alien',
 			ext:'.png',
@@ -108,11 +110,29 @@ export let Emoji = {
 		},
 
 	},
+	getTypeEmoji:function(emoji){
+
+		if(emoji.add_points){
+
+			return 'add_points';
+
+		}else if(emoji.id == 2){
+
+			return 'is_poop';
+
+		}
+	},
 	getEmojis:function(){
 		return this.emojis;
 	},
+	getSingleEmoji:function(name){
+		return this.emojis[name];
+	},
 	
-	createEmojis:function(num,enviroment,phaser,catchEmoji){
+	createEmojis:function(enviroment,phaser,catchEmoji){
+
+		let num = Phaser.Math.Between(1,enviroment.getMaxEmojisToCreate());
+		
 		for(let i = 0; i < num; i++){
 
 			let emoji = Emoji.createSingleEmoji(enviroment,phaser);
