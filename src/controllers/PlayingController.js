@@ -56,6 +56,8 @@ export let PlayingController = {
 
 		}
 
+		phaser.load.image('background','assets/helpers/background.png');
+
 	},
 
 	runEmojisRain:function(enviroment,phaser){

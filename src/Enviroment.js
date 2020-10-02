@@ -181,13 +181,7 @@ export let Enviroment = {
 				break;
 
 			}
-			case 'is_toilet':{
-
-				this.cleanPoop(catched_rocket,rocket);
-
-				break;
-
-			}
+			
 			
 
 		}
@@ -1004,14 +998,18 @@ export let Enviroment = {
 		this.addCollectedPoopObject(obj,rocket.id);
 		
 	},	
+	configureEmojiSetting:function(){
+		this.emojis_settings.poops.objs.player_one = [];
+		this.emojis_settings.poops.objs.player_two = [];
+	},	
 	cleanPoop:function(catched_rocket,rocket){
-		
 		if(rocket.poops != 0){
 
 			let new_poops_number = rocket.poops-1;
 
 			if(catched_rocket.id == 0){
 
+				
 				this.emojis_settings.poops.objs.player_one[new_poops_number].destroy();
 				this.emojis_settings.poops.objs.player_one.splice(new_poops_number,1);
 
@@ -1035,17 +1033,13 @@ export let Enviroment = {
 			
 			velocity.timer = 0;
 
-			velocity.time += 5;
+			velocity.time += 7;
 
 			this.setIncreaceFallVelocityTime(velocity.time);
 			
-		}else{
-
-			velocity.timer++;
-
 		}
 		if(velocity.time < 400){
-
+			velocity.timer++;
 			this.setIncreaceFallVelocityTimer(velocity.timer);
 		}
 
@@ -1056,7 +1050,7 @@ export let Enviroment = {
 
 		let poop_probability = Emoji.emojis.probabilities.poop;
 		
-		if(probability.timer == this.secondsToGameTime(probability.time_to_change) && probability.probability_to_add+poop_probability < 90){
+		if(probability.timer == this.secondsToGameTime(probability.time_to_change) && probability.probability_to_add+poop_probability < 93){
 			
 			probability.timer = 0;
 
@@ -1068,17 +1062,40 @@ export let Enviroment = {
 
 			
 
-		}else{
-
-			probability.timer++;
-
 		}
-		if(probability.probability_to_add+poop_probability < 80){
 
+		if(probability.probability_to_add+poop_probability < 90){
+			probability.timer++;
 			this.setIncreacePoopTimer(probability.timer);
 		}
+	},
+	moveBackground:function(){
 
-	}
+		let velocity = this.getIncreaceFallVelocity();
+
+		this.background.tilePositionY -= 1 + velocity.time/100;
+
+	},
+	configureTimes:function(){
+
+			this.times.game.hours = 0;
+			this.times.game.minutes = 0;
+			this.times.game.seconds = 0;
+
+			this.times.next_emoji.time = null;
+			this.times.next_emoji.elapsed = 0;
+			this.times.next_emoji.max = 0;
+			this.times.next_emoji.min = 0;
+
+			this.times.increace_fall_velocity.time = 0;
+			this.times.increace_fall_velocity.timer = 0;
+			this.times.increace_fall_velocity.time_to_change = 1;
+
+			this.times.increace_poop_probability.probability_to_add = 0;
+			this.times.increace_poop_probability.timer = 0;
+			this.times.increace_poop_probability.time_to_change = 8;
+
+	},
 
 
 }

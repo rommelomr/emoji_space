@@ -1,18 +1,21 @@
 import {PlayingScene} from '../scenes/PlayingScene.js';
 import {MainMenuScene} from '../scenes/MainMenuScene.js';
 import {InstructionsScene} from '../scenes/InstructionsScene.js';
+import {LoseScene} from '../scenes/LoseScene.js';
 
 export let Scene = {
 
-	MainMenu: MainMenuScene,
-	Playing: PlayingScene,
+	main_menu: MainMenuScene,
+	playing: PlayingScene,
 	instructions: InstructionsScene,
+	lose: LoseScene,
 	
 	getScenes:function(){
 		return [
-			this.MainMenu,
+			this.main_menu,
 			this.instructions,
-			this.Playing,
+			this.playing,
+			this.lose,
 		]
 	}
 }

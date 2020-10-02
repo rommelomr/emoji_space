@@ -1,3 +1,4 @@
+import {Config} from '../Config.js';
 import {PlayingController} from '../controllers/PlayingController.js';
 
 import {Emoji} from '../classes/Emoji.js';
@@ -22,6 +23,7 @@ export class PlayingScene extends Phaser.Scene {
 	}
 
 	create(){
+		Enviroment.background = this.add.tileSprite(Config.game_width/2,Config.game_height/2,500,500,'background');
 
 		Enviroment.configureLevel();
 
@@ -49,19 +51,35 @@ export class PlayingScene extends Phaser.Scene {
 
 		Emoji.configureProbabilities();
 
+		Enviroment.configureTimes();
+
 		Enviroment.configureFallVelocities();
 
+		Enviroment.configureEmojiSetting();
+
+		console.log('Emojis settings:',Enviroment.emojis_settings.poops.objs.player_one);
 	}
 
-	update(){
+	update(time,delta){
+
 		if(Enviroment.gameOver()){
 
-			alert('Game over');
+			
+			this.scene.pause();
+
+			this.scene.launch('LoseScene');
+			this.scene.bringToTop('LoseScene');
+
+			return;
+
 			
 
-			this.scene.start('MainMenuScene');
+			
 
 		}else{
+
+			Enviroment.moveBackground();
+			//Enviroment.background.tilePositionY	-= 1;
 
 			PlayingController.runPlayerControls(Enviroment,this);
 
