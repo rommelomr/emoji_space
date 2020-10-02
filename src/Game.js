@@ -8,7 +8,7 @@ export class Game {
 		this.game_width = data.game_width;
 		this.game_height = data.game_height;
 
-		this.verifyScreenSize();
+		//this.verifyScreenSize();
 		
 	}
 

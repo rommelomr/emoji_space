@@ -787,6 +787,15 @@ export let Enviroment = {
 			this.setPlayerObject(i,phaser.physics.add.image(this.setPlayerInitialXPosition(Config.game_width), this.setPlayerInitialYPosition(Config.game_height), player.image_name).setSize(50,80,true));
 
 			this.getPlayerObject(i).setCollideWorldBounds(true);
+
+			this.getPlayerObject(i).setInteractive();
+
+			phaser.input.setDraggable(this.getPlayerObject(i));
+
+			phaser.input.on('drag',function(pointer,rocket,drag_x){
+				
+				rocket.x = drag_x;
+			});
 				
 		}
 
