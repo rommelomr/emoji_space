@@ -1,4 +1,3 @@
-alert('CANVAS');
 import {Scene} from './classes/Scene.js';
 
 export class Game {
@@ -58,7 +57,7 @@ export class Game {
 	init(){
 
 		let config = {
-	        type: Phaser.CANVAS,
+	        type: Phaser.AUTO,
 
 	        width: this.getGameWidth(),
 
