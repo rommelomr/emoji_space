@@ -5,8 +5,8 @@ export class Game {
 	constructor(data){
 
 
-		this.game_width = screen.width;
-		this.game_height = screen.height;
+		this.game_width = data.game_width;
+		this.game_height = data.game_height;
 
 		//this.verifyScreenSize();
 		
