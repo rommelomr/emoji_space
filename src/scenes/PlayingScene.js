@@ -1,5 +1,6 @@
 import {PlayingController} from '../controllers/PlayingController.js';
 
+import {Emoji} from '../classes/Emoji.js';
 import {Enviroment} from '../Enviroment.js';
 
 export class PlayingScene extends Phaser.Scene {
@@ -45,12 +46,18 @@ export class PlayingScene extends Phaser.Scene {
 		Enviroment.configureScore(this);
 
 		Enviroment.configureCollectedPoops();
+
+		Emoji.configureProbabilities();
+
+		Enviroment.configureFallVelocities();
+
 	}
 
 	update(){
 		if(Enviroment.gameOver()){
 
 			alert('Game over');
+			
 
 			this.scene.start('MainMenuScene');
 
@@ -60,8 +67,9 @@ export class PlayingScene extends Phaser.Scene {
 
 			PlayingController.runEmojisRain(Enviroment,this);			
 			
+			Enviroment.increaceFallVelocity();		
+			Enviroment.increacePoopProbability();
 		}
-		
 		
 
 	}

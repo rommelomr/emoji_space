@@ -3,11 +3,30 @@ import {Config} from '../Config.js';
 export let Emoji = {
 
 	emojis:{
+		probabilities:{
+			poop:null,
+//			poop:10,
+			good_emojis:null,
+//			good_emojis:60,
+			point_emojis:null,
+//			point_emojis:95,
 
+		},
+		poop:{
+
+			id:0,
+			first_aparition_level:2,
+			probability:20,
+			is_good:false,
+			object:null,
+			image_name:'poop',
+			ext:'.png',
+			//If catch (this.max_poop_to_lose), lose
+		},
 		smile:{
 			id:1,
 			first_aparition_level:1,
-			probability:60,
+			probability:30,
 			is_good:true,
 			add_points:true,
 			points:1,
@@ -16,33 +35,11 @@ export let Emoji = {
 			ext:'.png',
 			//Add 1 pt
 		},
-		poop:{
-
-			id:2,
-			first_aparition_level:2,
-			probability:60,
-			is_good:false,
-			object:null,
-			image_name:'poop',
-			ext:'.png',
-			//If catch (this.max_poop_to_lose), lose
-		},
-		toilet:{
-
-			id:3,
-			first_aparition_level:2,
-			probability:60,
-			is_good:true,
-			object:null,
-			image_name:'toilet',
-			ext:'.png',
-			//Clean a poop
-		},
 		angel:{
 
-			id:4,
+			id:2,
 			first_aparition_level:1,
-			probability:60,
+			probability:30,
 			add_points:true,
 			is_good:true,
 			points:3,
@@ -53,21 +50,39 @@ export let Emoji = {
 		},
 		laugh:{
 
-			id:5,
+			id:3,
 			first_aparition_level:3,
-			probability:60,
+			probability:20,
 			is_good:true,
+			add_points:true,
 			points:5,
 			object:null,
 			image_name:'laugh',
 			ext:'.png',
 			//Add 3 pt
 		},
+		toilet:{
+
+			id:4,
+			first_aparition_level:2,
+			probability:4,
+			is_good:true,
+			object:null,
+			image_name:'toilet',
+			ext:'.png',
+			//Clean a poop
+		},
 		heart:{
 
-			id:6,
+			id:5,
 			first_aparition_level:4,
-			probability:60,
+			probability:6,
+
+			//POR AHORA PARA EL PROTOTIPOOOO 
+				add_points:true,
+				points:10,
+			//EL CORAZON NO DEBE HACER ESTO
+
 			is_good:true,
 			object:null,
 			image_name:'heart',
@@ -76,10 +91,15 @@ export let Emoji = {
 		},
 		phantom:{
 
-			id:7,
+			id:6,
 			first_aparition_level:3,
-			probability:60,
-			is_good:false,
+			probability:30,
+			//POR AHORA PARA EL PROTOTIPOOOO 
+				is_good:false, //DEBE IR FALSE
+				add_points:true, //ESTO NO VA
+				points:-1, // ESTO TAMPOCO
+			//EL CORAZON NO DEBE HACER ESTO
+
 			object:null,
 			image_name:'phantom',
 			ext:'.png',
@@ -87,10 +107,14 @@ export let Emoji = {
 		},
 		devil:{
 
-			id:8,
+			id:7,
 			first_aparition_level:3,
-			probability:60,
-			is_good:false,
+			probability:30,
+			//POR AHORA PARA EL PROTOTIPOOOO 
+				is_good:false, //DEBE IR FALSE
+				add_points:true, //ESTO NO VA
+				points:-5, // ESTO TAMPOCO
+			//EL CORAZON NO DEBE HACER ESTO
 			object:null,
 			image_name:'devil',
 			ext:'.png',
@@ -98,16 +122,33 @@ export let Emoji = {
 		},
 		alien:{
 
-			id:9,
+			id:8,
 			first_aparition_level:4,
-			probability:60,
-			is_good:false,
+			probability:30,
+			//POR AHORA PARA EL PROTOTIPOOOO 
+				is_good:false, //DEBE IR FALSE
+				add_points:true, //ESTO NO VA
+				points:-3, // ESTO TAMPOCO
+			//EL CORAZON NO DEBE HACER ESTO
 			object:null,
 			image_name:'alien',
 			ext:'.png',
 			//Invert cursors for N seconds
-
 		},
+	},
+	setPoop:function(num){
+
+		this.emojis.probabilities.poop = num;
+
+	},
+	setGoodEmojis:function(num){
+
+		this.emojis.probabilities.good_emojis = num;
+
+	},
+	setPointEmojis:function(num){
+
+		this.emojis.probabilities.point_emojis = num;
 
 	},
 	getTypeEmoji:function(emoji){
@@ -116,11 +157,11 @@ export let Emoji = {
 
 			return 'add_points';
 
-		}else if(emoji.id == 2){
+		}else if(emoji.id == 0){
 
 			return 'is_poop';
 
-		}else if(emoji.id == 3){
+		}else if(emoji.id == 4){
 			
 			return 'is_toilet';
 		}
@@ -158,15 +199,55 @@ export let Emoji = {
 		enviroment.setNextEmojiTime(Phaser.Math.Between(0.6,1));
 
 	},
+	getEmojisProbabilities:function(){
+		return this.emojis.probabilities;
+	},
+	getIndexEmojiByProbability:function(){
+
+		let probabilities = this.getEmojisProbabilities();
+
+ 		let dice = Phaser.Math.Between(1,100);
+
+ 		if(dice <= probabilities.poop){
+
+ 			return 0;
+
+ 		}else{
+
+ 			dice = Phaser.Math.Between(1,100);
+
+ 			if(dice <= probabilities.good_emojis){
+
+ 				dice = Phaser.Math.Between(1,100);
+
+ 				if(dice <= probabilities.point_emojis){
+
+ 				return Phaser.Math.Between(1,3);
+
+ 				}else{
+ 					return Phaser.Math.Between(4,5);
+ 				}
+
+ 			}else{
+
+ 				return Phaser.Math.Between(6,8);
+ 			}
+
+ 		}
+
+ 		
+
+	},
 	createSingleEmoji:function(enviroment,phaser){
-		let emoji_to_display_random_index = Phaser.Math.Between(0,enviroment.getCurrentLevelEmojis().length-1);
+
+		let emoji_to_display_random_index = this.getIndexEmojiByProbability();
 
 		let random_emoji_name = enviroment.getCurrentLevelEmojis()[emoji_to_display_random_index];
 
 		//EPO: Emoji Phaser Object
 		let epo = phaser.physics.add.image(null, null, random_emoji_name);
 		
-		let velocity = enviroment.getEmojisBaseVelocity() + Phaser.Math.Between(enviroment.getEmojisMinVelocityAdd(),enviroment.getEmojisMaxVelocityAdd());
+		let velocity = enviroment.getEmojisBaseVelocity() + Phaser.Math.Between(enviroment.getEmojisMinVelocityAdd(),enviroment.getEmojisMaxVelocityAdd())+enviroment.getIncreaceFallVelocity().time;
 
 		epo.setVelocityY(velocity);
 		epo.name = random_emoji_name;
@@ -199,5 +280,10 @@ export let Emoji = {
 
 		emoji.epo.y = y;
 
+	},
+	configureProbabilities:function(){
+		this.setPoop(10);
+		this.setGoodEmojis(60);
+		this.setPointEmojis(95);
 	},
 }

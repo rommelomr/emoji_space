@@ -10,13 +10,27 @@ export let Enviroment = {
 	},
 
 	times:{//in seconds
-
+		game:{
+			hours:0,
+			minutes:0,
+			seconds:0
+		},
 		next_emoji:{
 			time:null,
 			elapsed:0,
 			max:0,
 			min:0,
 		},
+		increace_fall_velocity:{
+			time:0,
+			timer:0,
+			time_to_change:1,
+		},
+		increace_poop_probability:{
+			probability_to_add:0,
+			timer:0,
+			time_to_change:8,
+		}
 
 	},
 
@@ -53,6 +67,51 @@ export let Enviroment = {
 		player_score:[]
 	},
 
+	configureFallVelocities:function(){
+
+		this.setIncreaceFallVelocityTime(0);
+		this.setIncreaceFallVelocityTimer(0);
+
+	},
+
+	setIncreaceFallVelocityTime:function(num){
+
+		this.times.increace_fall_velocity.time = num;
+
+	},
+	setIncreaceFallVelocityTimer:function(num){
+
+		this.times.increace_fall_velocity.timer = num;
+
+	},
+
+	getIncreaceFallVelocity:function(){
+
+		return this.times.increace_fall_velocity;
+
+	},
+	
+	setIncreacePoopProbability:function(num){
+
+		this.times.increace_poop_probability.probability_to_add = num;
+
+	},
+	setIncreacePoopTimer:function(num){
+
+		this.times.increace_poop_probability.timer = num;
+
+	},
+	
+	getIncreacePoopProbability:function(){
+
+		return this.times.increace_poop_probability;
+
+	},
+
+	
+	setIncreacePoopProbability:function(i,num){
+	},
+	
 	setPlayerCollectedPoops:function(i,num){
 
 		this.players.array[i].poops = num;
@@ -84,7 +143,8 @@ export let Enviroment = {
 
 		let type_emoji = Emoji.getTypeEmoji(emoji_info);
 
-
+		
+		
 		switch(type_emoji){
 			case 'add_points':{
 
@@ -121,6 +181,14 @@ export let Enviroment = {
 				break;
 
 			}
+			case 'is_toilet':{
+
+				this.cleanPoop(catched_rocket,rocket);
+
+				break;
+
+			}
+			
 
 		}
 
@@ -373,7 +441,7 @@ export let Enviroment = {
 
 			if(game_is_starting){
 
-				this.setLevel(2);
+				this.setLevel(9);
 
 			}else{
 
@@ -399,7 +467,7 @@ export let Enviroment = {
 	configurePlayerXVelocity:function(i,v){
 
 		if(v == null){
-			this.setPlayerXVelocity(i,400);
+			this.setPlayerXVelocity(i,550);
 		}else{
 
 			this.setPlayerXVelocity(i,v);
@@ -421,7 +489,7 @@ export let Enviroment = {
 		
 		if(num == null){
 
-			this.setPlayerBrakes(i,40);
+			this.setPlayerBrakes(i,this.getPlayerXVelocity(i)/10);
 
 		}else{
 
@@ -959,5 +1027,58 @@ export let Enviroment = {
 		}
 		
 	},	
+	increaceFallVelocity:function(){
+
+		let velocity = this.getIncreaceFallVelocity();
+		
+		if(velocity.timer == this.secondsToGameTime(velocity.time_to_change) && velocity.time < 400){
+			
+			velocity.timer = 0;
+
+			velocity.time += 5;
+
+			this.setIncreaceFallVelocityTime(velocity.time);
+			
+		}else{
+
+			velocity.timer++;
+
+		}
+		if(velocity.time < 400){
+
+			this.setIncreaceFallVelocityTimer(velocity.timer);
+		}
+
+	},
+	increacePoopProbability:function(){
+
+		let probability = this.getIncreacePoopProbability();
+
+		let poop_probability = Emoji.emojis.probabilities.poop;
+		
+		if(probability.timer == this.secondsToGameTime(probability.time_to_change) && probability.probability_to_add+poop_probability < 90){
+			
+			probability.timer = 0;
+
+			probability.probability_to_add += 5;
+
+			Emoji.emojis.probabilities.poop += probability.probability_to_add;
+
+			this.getIncreacePoopProbability(probability.time);
+
+			
+
+		}else{
+
+			probability.timer++;
+
+		}
+		if(probability.probability_to_add+poop_probability < 80){
+
+			this.setIncreacePoopTimer(probability.timer);
+		}
+
+	}
+
 
 }
