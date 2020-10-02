@@ -20,7 +20,7 @@ export let Emoji = {
 			is_good:false,
 			object:null,
 			image_name:'poop',
-			ext:'.png',
+			ext:'.svg',
 			//If catch (this.max_poop_to_lose), lose
 		},
 		smile:{
@@ -32,7 +32,7 @@ export let Emoji = {
 			points:1,
 			object:null,
 			image_name:'smile',
-			ext:'.png',
+			ext:'.svg',
 			//Add 1 pt
 		},
 		angel:{
@@ -45,7 +45,7 @@ export let Emoji = {
 			points:3,
 			object:null,
 			image_name:'angel',
-			ext:'.png',
+			ext:'.svg',
 			//Add 2 pt
 		},
 		laugh:{
@@ -58,7 +58,7 @@ export let Emoji = {
 			points:5,
 			object:null,
 			image_name:'laugh',
-			ext:'.png',
+			ext:'.svg',
 			//Add 3 pt
 		},
 		toilet:{
@@ -69,7 +69,7 @@ export let Emoji = {
 			is_good:true,
 			object:null,
 			image_name:'toilet',
-			ext:'.png',
+			ext:'.svg',
 			//Clean a poop
 		},
 		heart:{
@@ -86,7 +86,7 @@ export let Emoji = {
 			is_good:true,
 			object:null,
 			image_name:'heart',
-			ext:'.png',
+			ext:'.svg',
 			//Add 1 life
 		},
 		phantom:{
@@ -102,7 +102,7 @@ export let Emoji = {
 
 			object:null,
 			image_name:'phantom',
-			ext:'.png',
+			ext:'.svg',
 			//Not allow catch good emojis
 		},
 		devil:{
@@ -117,7 +117,7 @@ export let Emoji = {
 			//EL CORAZON NO DEBE HACER ESTO
 			object:null,
 			image_name:'devil',
-			ext:'.png',
+			ext:'.svg',
 			//Lose 1 life
 		},
 		alien:{
@@ -132,7 +132,7 @@ export let Emoji = {
 			//EL CORAZON NO DEBE HACER ESTO
 			object:null,
 			image_name:'alien',
-			ext:'.png',
+			ext:'.svg',
 			//Invert cursors for N seconds
 		},
 	},

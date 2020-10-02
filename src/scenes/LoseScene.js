@@ -12,7 +12,7 @@ export class LoseScene extends Phaser.Scene {
 
 	preload(){
 
-		LoseController.loadImages(this);
+		
 
 	}
 
@@ -22,9 +22,6 @@ export class LoseScene extends Phaser.Scene {
 
 	update(){
 		
-		LoseController.runAvatarControls(Enviroment);
-
-		LoseController.runEmojisRain(Enviroment,this);			
 
 	}
 }
