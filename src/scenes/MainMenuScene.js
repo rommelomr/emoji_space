@@ -16,7 +16,7 @@ export class MainMenuScene extends Phaser.Scene {
 	}
 
 	create(){
-
+		
 		MainMenuController.createMenu(this);
 		
 	}

@@ -20,14 +20,14 @@ export class LoseScene extends Phaser.Scene {
 	}
 
 	create(){
-
+		
 		this.add.image(Config.game_width/2,Config.game_height/2,'game_over');
 
 		let button = this.add.image(Config.game_width/2,Config.game_height/1.5,'play_again_button').setScale(0.5);
 
 		button.setInteractive();
 		button.once('pointerup',()=>{
-			
+
 			this.scene.start('PlayingScene');
 		})
 	}

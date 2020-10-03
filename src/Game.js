@@ -1,14 +1,22 @@
 import {Scene} from './classes/Scene.js';
+import {Config} from './Config.js';
 
 export class Game {
 
 	constructor(data){
 
+		if(this.isMobile()){
 
-		this.game_width = data.game_width;
-		this.game_height = data.game_height;
+			this.game_width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+			this.game_height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+			Config.game_width = this.game_width;
+			Config.game_height = this.game_height;
 
-		//this.verifyScreenSize();
+		}else{			
+
+			this.game_width = data.game_width;
+			this.game_height = data.game_height;
+		}
 		
 	}
 
@@ -76,6 +84,15 @@ export class Game {
 		};
 
 		let game = new Phaser.Game(config);
-
+	}	
+	isMobile(){
+	    return (
+	        (navigator.userAgent.match(/Android/i)) ||
+	        (navigator.userAgent.match(/webOS/i)) ||
+	        (navigator.userAgent.match(/iPhone/i)) ||
+	        (navigator.userAgent.match(/iPod/i)) ||
+	        (navigator.userAgent.match(/iPad/i)) ||
+	        (navigator.userAgent.match(/BlackBerry/i))
+	    );
 	}
 }

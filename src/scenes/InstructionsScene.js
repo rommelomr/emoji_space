@@ -14,7 +14,7 @@ export class InstructionsScene extends Phaser.Scene {
 	}
 
 	create(){
-
+		this.scale.startFullScreen();
 		this.add.image(Config.game_width/2,Config.game_height/2,'instructions');
 		let button = this.add.image(350,350,'button').setScale(0.7);
 		

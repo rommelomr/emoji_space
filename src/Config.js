@@ -1,3 +1,4 @@
+
 export let Config = {
 
 	game_width : 500,
