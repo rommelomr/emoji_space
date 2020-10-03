@@ -23,7 +23,7 @@ export class PlayingScene extends Phaser.Scene {
 	}
 
 	create(){
-		this.scale.startFullscreen();
+		
 		Enviroment.background = this.add.tileSprite(Config.game_width/2,Config.game_height/2,Config.game_width,Config.game_height,'background');
 
 		Enviroment.configureLevel();
