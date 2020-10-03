@@ -135,7 +135,7 @@ export let Enviroment = {
 
 
 	},
-	catchEmoji:function(catched_rocket,catched_emoji,phaser){
+	catchEmoji:function(enviroment,catched_rocket,catched_emoji,phaser){
 
 		let rocket = this.getPlayer(catched_rocket.id);
 
@@ -147,7 +147,15 @@ export let Enviroment = {
 		
 		switch(type_emoji){
 			case 'add_points':{
+				if(emoji_info.is_good){
 
+					enviroment.sounds.effects.good_emoji.play();
+
+				}else{
+
+					enviroment.sounds.effects.bad_emoji.play();
+
+				}
 				let actual_player_score = this.getPlayer(catched_rocket.id).score;
 
 				let new_score = actual_player_score + emoji_info.points;
@@ -161,6 +169,7 @@ export let Enviroment = {
 			}
 			case 'is_poop':{
 
+				enviroment.sounds.effects.poop.play();
 				let game_collected_poops = this.getGameCollectedPoops()+1;
 
 				this.setGameCollectedPoops(game_collected_poops);
@@ -175,13 +184,13 @@ export let Enviroment = {
 
 			}
 			case 'is_toilet':{
+				enviroment.sounds.effects.toilet.play();
 
 				this.cleanPoop(catched_rocket,rocket);
 
 				break;
 
-			}
-			
+			}			
 			
 
 		}
@@ -1073,7 +1082,7 @@ export let Enviroment = {
 
 		}
 
-		if(probability.probability_to_add+poop_probability < 90){
+		if(probability.probability_to_add+poop_probability < 80){
 			probability.timer++;
 			this.setIncreacePoopTimer(probability.timer);
 		}

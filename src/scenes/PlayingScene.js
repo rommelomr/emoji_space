@@ -19,11 +19,33 @@ export class PlayingScene extends Phaser.Scene {
 		PlayingController.loadImages(Enviroment,this);
 
 		Enviroment.loadFonts(this);
-
+		this.load.audio('poop',[
+			'assets/sounds/poop.mp3'
+		]);
+		this.load.audio('toilet',[
+			'assets/sounds/toilet.mp3'
+		]);
+		this.load.audio('good_emoji',[
+			'assets/sounds/good_emoji.mp3'
+		]);
+		this.load.audio('bad_emoji',[
+			'assets/sounds/bad_emoji.mp3'
+		]);
 	}
 
 	create(){
-		
+
+		Enviroment.sounds = {
+
+			effects : {
+				poop : this.sound.add('poop'),
+				toilet : this.sound.add('toilet'),
+				good_emoji : this.sound.add('good_emoji'),
+				bad_emoji : this.sound.add('bad_emoji'),
+
+			}
+		}
+
 		Enviroment.background = this.add.tileSprite(Config.game_width/2,Config.game_height/2,Config.game_width,Config.game_height,'background');
 
 		Enviroment.configureLevel();
@@ -86,7 +108,8 @@ export class PlayingScene extends Phaser.Scene {
 
 			PlayingController.runEmojisRain(Enviroment,this);			
 			
-			Enviroment.increaceFallVelocity();		
+			Enviroment.increaceFallVelocity();
+
 			Enviroment.increacePoopProbability();
 		}
 		

@@ -110,7 +110,7 @@ export let PlayingController = {
 
 		enviroment.disableEmoji(i,aux);
 
-		Enviroment.catchEmoji(rocket,emoji,phaser);
+		Enviroment.catchEmoji(enviroment,rocket,emoji,phaser);
 
 	},
 
