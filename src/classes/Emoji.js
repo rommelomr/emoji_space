@@ -284,7 +284,9 @@ export let Emoji = {
 	configureProbabilities:function(){
 
 		this.setPoop(10);
+
 		this.setGoodEmojis(60);
-		this.setPointEmojis(95);
+		
+		this.setPointEmojis(80);
 	},
 }

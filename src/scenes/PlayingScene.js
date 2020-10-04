@@ -79,8 +79,6 @@ export class PlayingScene extends Phaser.Scene {
 		Enviroment.configureFallVelocities();
 
 		Enviroment.configureEmojiSetting();
-
-		console.log('Emojis settings:',Enviroment.emojis_settings.poops.objs.player_one);
 	}
 
 	update(time,delta){
